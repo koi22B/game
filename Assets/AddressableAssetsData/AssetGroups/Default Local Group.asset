@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 5d8466b7aa307fb4d8fe616a5132eda3
+  m_SerializeEntries:
+  - m_GUID: 168c9be0d465355449605cd8c203e5e5
+    m_Address: Assets/Images/Backgrounds/kyousitsu.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9979fa809a6a65b429a223f4f817f638
+    m_Address: Assets/Text/text1.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 7e8363d281c0de445b35adb7fea0e052, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 14dcdee91b4809e41bdd530b0c5a91f7, type: 2}
+    - {fileID: 11400000, guid: 7fc7dbfd581b5c340b0d36b6d27dcc44, type: 2}
