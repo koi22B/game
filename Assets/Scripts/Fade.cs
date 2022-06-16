@@ -23,5 +23,9 @@ public class Fade : MonoBehaviour
             c.a += inorout * fadeSpeed * Time.deltaTime;
             img.color = c;
         }
+        if(this.gameObject.activeSelf && c.a <= 0.0f)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }
