@@ -15,11 +15,14 @@ public class UIText : MonoBehaviour
     public float textSpeed = 0.1f;
 
     void Start(){}
-
+    bool clicked = false;
+    public void TextOnClick() {
+        clicked = true;
+    }
     // クリックで次のページを表示させるための関数
     public bool IsClicked()
     {
-        if (Input.GetMouseButtonDown(0)) return true;
+        if (clicked) {clicked = false;return true;}
         return false;
     }
 

@@ -1,14 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using UnityEngine.UI;
+using System.IO;
+using TMPro;
+using UnityEngine.AddressableAssets;
+using System;
+
 
 public class TextWriter : MonoBehaviour
 {
+
     public UIText uitext;
+    public UIButton uibutton;
+    List<string> lines = new List<string>();
+    int nowline = 1;
     // Start is called before the first frame update
     void Start()
     {
+        LoadText();
         StartCoroutine("Cotest");
+    }
+
+    void LoadText() {
+        enabled = false;
+        Addressables.LoadAssetAsync<TextAsset>( "Assets/Texts/text1.txt" ).Completed += novelData =>
+        {
+            StringReader reader = new StringReader( novelData.Result.text );
+            //Debug.Log(reader.Peak());
+            while ( reader.Peek() != -1 ) {
+                string line = reader.ReadLine();
+                lines.Add( line );
+                //Debug.Log(lines.Count);
+                enabled = true;
+            }
+        };
+
     }
     
     // クリック待ちのコルーチン
@@ -17,37 +45,64 @@ public class TextWriter : MonoBehaviour
         while (uitext.playing) yield return 0;//一フレーム分待つ。yield return null とは何かが違うらしい
         while (!uitext.IsClicked()) yield return 0;
     }
-    
+
+    IEnumerator DoLine() {
+        //Debug.Log(lines.Count);
+        string line = lines[nowline-1];
+        bool match = Regex.IsMatch(line, "@.");
+        if(Regex.IsMatch(line, "@c")) {
+            nowline++;
+        }
+        else if(Regex.IsMatch(line, "@b")) {
+            string[] words = line.Split(",");
+            int res = -1;
+            uibutton.DrawButton(words[1],words[2]);
+            while (true) {
+                res = uibutton.GetButton();
+                if(res == -1)yield return 0;
+                else break;
+            }
+            switch (res) {
+                case 1:
+                    nowline = Int32.Parse(words[3]);
+                    break;
+                case 2:
+                    nowline = Int32.Parse(words[4]);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(Regex.IsMatch(line, "@l")) {
+            string x = line.Substring(3);
+            nowline = Int32.Parse(x);
+        }
+        else{
+            int comma = line.IndexOf(",");
+            if (comma == -1) {
+                uitext.DrawText(line);
+            }
+            else {
+                uitext.DrawText(line.Substring(0, comma), line.Substring(comma+1));
+            }
+            yield return StartCoroutine("Skip");
+            nowline++;
+        }
+        
+        if (nowline > lines.Count)nowline -= lines.Count;
+    }
+
     // 文章を表示させるコルーチン
     IEnumerator Cotest()
     {
-        uitext.DrawText("ナレーションだったらこのまま書けばOK");
-        yield return StartCoroutine("Skip");
-
-        uitext.DrawText("名前","人が話すのならこんな感じ");
-        yield return StartCoroutine("Skip");
-
-        uitext.DrawText("キーンコーンカーンコーン");
-        yield return StartCoroutine("Skip");
-
-        uitext.DrawText("愚民どもが授業を受けている中、優々と昼寝をしていたというのに、この耳障りなチャイムがいつも俺の眠りを妨げる。");
-        yield return StartCoroutine("Skip");
-        
-        uitext.DrawText("俺は夜型なんだ。普通の学生のように昼間から真面目に授業など受けていられるか。");
-        yield return StartCoroutine("Skip");
-
-        uitext.DrawText("最悪の目覚めでぼやけた視界を正すように目をこする。");
-        yield return StartCoroutine("Skip");
-        
-        uitext.DrawText("あい", "おはよー！ゆうくん！またお昼寝してたの？");
-        yield return StartCoroutine("Skip");
-        
-        uitext.DrawText("またこいつか…。ここに来てからというもの、昼休みになると毎日現れる。");
-        yield return StartCoroutine("Skip");
-        
-        uitext.DrawText("あい", "今日もゆうくんのためにお弁当作って来たんだよ！はい、どうぞ！");
-        yield return StartCoroutine("Skip");
-        
-        
+        while (true) {
+            if(!enabled)yield return 0;
+            else yield return StartCoroutine("DoLine");
+        }
     }
+    public void OnClick() {
+        Debug.Log("押された!");
+    }
+
+
 }
