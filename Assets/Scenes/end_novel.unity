@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uitext: {fileID: 1294145788}
   uibutton: {fileID: 1294145789}
-  path: Assets/Texts/text1.txt
+  path: Assets/Texts/text2.txt
 --- !u!114 &1294145788
 MonoBehaviour:
   m_ObjectHideFlags: 0
