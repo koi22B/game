@@ -53,25 +53,18 @@ public class TextWriter : MonoBehaviour
         if(Regex.IsMatch(line, "@c")) {
             nowline++;
         }
-        else if(Regex.IsMatch(line, "@b")) {
-            string[] words = line.Split(",");
+        else if(Regex.IsMatch(line, "@b"))// 選択肢
+        {
+            var words = new List<string>(line.Split(","));
+            int button_num = Int32.Parse(words[1]);
             int res = -1;
-            uibutton.DrawButton(words[1],words[2]);
+            uibutton.DrawButton(words.GetRange(2, button_num));
             while (true) {
                 res = uibutton.GetButton();
                 if(res == -1)yield return 0;
                 else break;
             }
-            switch (res) {
-                case 1:
-                    nowline = Int32.Parse(words[3]);
-                    break;
-                case 2:
-                    nowline = Int32.Parse(words[4]);
-                    break;
-                default:
-                    break;
-            }
+            nowline = Int32.Parse(words[button_num+res+1]);
         }
         else if(Regex.IsMatch(line, "@l")) {
             string x = line.Substring(3);
