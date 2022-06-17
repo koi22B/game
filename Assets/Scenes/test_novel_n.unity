@@ -1183,6 +1183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uitext: {fileID: 1294145788}
   uibutton: {fileID: 1294145789}
+  path: 
 --- !u!114 &1294145788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,11 +1213,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d044ace485ffcc149afd34e65fb8587d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clicked: 0
   button1: {fileID: 276288798}
   button2: {fileID: 986558064}
+  button3: {fileID: 0}
+  button4: {fileID: 0}
+  button5: {fileID: 0}
   text1: {fileID: 222326960}
   text2: {fileID: 1223743336}
+  text3: {fileID: 0}
+  text4: {fileID: 0}
+  text5: {fileID: 0}
 --- !u!1 &1433727110
 GameObject:
   m_ObjectHideFlags: 0
