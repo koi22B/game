@@ -14,6 +14,7 @@ public class TextWriter : MonoBehaviour
 
     public UIText uitext;
     public UIButton uibutton;
+    public string path;
     List<string> lines = new List<string>();
     int nowline = 1;
     // Start is called before the first frame update
@@ -25,7 +26,7 @@ public class TextWriter : MonoBehaviour
 
     void LoadText() {
         enabled = false;
-        Addressables.LoadAssetAsync<TextAsset>( "Assets/Texts/text1.txt" ).Completed += novelData =>
+        Addressables.LoadAssetAsync<TextAsset>(path).Completed += novelData =>
         {
             StringReader reader = new StringReader( novelData.Result.text );
             //Debug.Log(reader.Peak());
