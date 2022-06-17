@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
 
     private Dictionary<string, SoundData> soundDictionary = new Dictionary<string, SoundData>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         instance = this;
         DontDestroyOnLoad(this.gameObject);
