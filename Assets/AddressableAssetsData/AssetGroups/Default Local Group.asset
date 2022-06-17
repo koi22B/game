@@ -25,6 +25,10 @@ MonoBehaviour:
     m_Address: Assets/Texts/text1.txt
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 2aeddfb03d02144408a4b2bb1b7f6338
+    m_Address: Assets/Texts/text_main.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7e8363d281c0de445b35adb7fea0e052, type: 2}
   m_SchemaSet:
