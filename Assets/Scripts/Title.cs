@@ -16,6 +16,8 @@ public class Title : MonoBehaviour
     public void PressStart()
     {
         SceneManager.LoadScene("main_novel");
+        SoundManager.Instance().Play("Button");
+        SoundManager.Instance().PlayLoop("MainBGM");
     }
 
     public void PressExit()
@@ -41,6 +43,7 @@ public class Title : MonoBehaviour
     void Start()
     {
         // Select(tmpId);
+        SoundManager.Instance().PlayLoop("TitleBGM");
     }
 
     // Update is called once per frame
