@@ -15,7 +15,7 @@ public class Title : MonoBehaviour
     */
     public void PressStart()
     {
-        SceneManager.LoadScene("test_novel_n");
+        SceneManager.LoadScene("main_text_n");
         SoundManager.Instance().Play("Button");
         SoundManager.Instance().PlayLoop("MainBGM");
     }

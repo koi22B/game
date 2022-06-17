@@ -11,7 +11,6 @@ using System;
 
 public class TextWriter : MonoBehaviour
 {
-
     public UIText uitext;
     public UIButton uibutton;
     public string path;
@@ -70,6 +69,11 @@ public class TextWriter : MonoBehaviour
         else if(Regex.IsMatch(line, "@l")) {
             string x = line.Substring(3);
             nowline = Int32.Parse(x);
+        } 
+        else if(Regex.IsMatch(line, "@p"))
+        {
+            ScenarioCounter.Instance().incScenario();
+            nowline++;
         }
         else{
             int comma = line.IndexOf(",");
