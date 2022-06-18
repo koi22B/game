@@ -10,7 +10,7 @@ public class BackgroundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Addressables.LoadAssetAsync<Sprite>( "Assets/Images/Backgrounds/kyousitsu.jpg" ).Completed += sprite =>
+        Addressables.LoadAssetAsync<Sprite>( "Assets/Images/bguo.jpg" ).Completed += sprite =>
         {
             _bgImg = GetComponent<Image>();
             _bgImg.type = Image.Type.Simple;

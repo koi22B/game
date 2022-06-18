@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/main_text_n.unity
     guid: 02008bcb739e410458820f3e7259d0ef
+  - enabled: 1
+    path: Assets/Scenes/pre_minigame.unity
+    guid: 45a3190a8910ffe498753497cf66acdd
   - enabled: 0
     path: Assets/Scenes/test_novel_n.unity
     guid: 042dc364729d4f64bb673997f3b3af4a

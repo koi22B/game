@@ -1099,8 +1099,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: 86}
-  m_SizeDelta: {x: 705, y: 800}
+  m_AnchoredPosition: {x: -14.466, y: -0.00000095367}
+  m_SizeDelta: {x: 1162.5, y: 1202.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062290232
 MonoBehaviour:
@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a1865686103ffcb4996a80713c1a7c85, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bdcc27eb8fe49fb488c7eca3254ed3ca, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uitext: {fileID: 1294145788}
   uibutton: {fileID: 1294145789}
-  path: Assets/Texts/text_main.txt
+  path: Assets/Texts/text_pre_minigame.txt
 --- !u!114 &1294145788
 MonoBehaviour:
   m_ObjectHideFlags: 0
