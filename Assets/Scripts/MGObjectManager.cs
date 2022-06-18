@@ -15,11 +15,21 @@ public class MGObjectManager : MonoBehaviour
     public float time;
     public float dashtime;
     public float sidetime;
-    private float lrmove;
-    private float lrinterval;
     private float leftside;
     private float rightside;
     private Sequence sequence;
+    private float x;
+    private int [] action;
+    public struct S_default
+    {
+        public float leftside;
+        public float rightside;
+        public float dashtime;
+        public float dashlen;
+        public float sidetime;
+        public float lanewidth;
+    }
+    private S_default s_default;
 
     // Start is called before the first frame update
     void Start()
@@ -28,16 +38,105 @@ public class MGObjectManager : MonoBehaviour
         human = GameObject.FindGameObjectWithTag("human").transform;
         shadow = GameObject.FindGameObjectWithTag("shadow").transform;
         cam = Camera.main.gameObject.transform;
-        human_size = human.localScale;
-        shadow_size = human.localScale;
+        human_size = GameObject.FindGameObjectWithTag("human").GetComponent<BoxCollider>().size;
+        shadow_size = GameObject.FindGameObjectWithTag("shadow").GetComponent<BoxCollider>().size;
         shadow_tan = 0.0f;
         time = 0f;
         dashtime = 0f;
         sidetime = 0f;
-        leftside = -5f;
-        rightside = 5f;
-        lrmove = 0.5f;
-        lrinterval = 1f;
+        s_default.leftside = -5f;
+        s_default.rightside = 5f;
+        s_default.dashtime = 2.5f;
+        s_default.dashlen = 4f;
+        s_default.sidetime = 0.5f;
+        s_default.lanewidth = 1f;
+        x = 0f;
+        action = new int[4] {0, 1, 2, 3};
+    }
+
+    float derivative(float y)
+    {
+        float n;
+        if (y % 6.7f > 3.35f)
+        {
+            return (0.01f);
+        }
+        n = x % 2 - 1f;
+        x += 0.2f;
+        return (n * n / 2);
+    }
+
+    void Jump()
+    {
+        time = 1f + Parameter.param.strength;
+        if (dashtime > 0)
+        {
+            if (time > dashtime)
+            {
+                time = dashtime;
+            }
+            if (time > dashtime - s_default.dashtime && dashtime > s_default.dashtime)
+            {
+                time = dashtime - s_default.dashtime;
+            }
+        }
+        if (sidetime > 0 && time > sidetime)
+        {
+            time = sidetime;
+        }
+        Debug.Log("jump");
+        sequence.Join(human.DOMoveZ(-1f, time / 2).SetLoops(2,LoopType.Yoyo));
+        Parameter.param.strength += derivative(Parameter.param.strength);
+    }
+
+    void Dash()
+    {
+        if (dashtime <= 0)
+        {
+            Debug.Log("dash");
+            sequence.Join(human.DOMoveY(human.position.y + s_default.dashlen, s_default.dashtime).SetLoops(2,LoopType.Yoyo));
+            dashtime = s_default.dashtime * 2;
+        }
+    }
+
+    void Right()
+    {
+        if (human.position.x < s_default.rightside - s_default.lanewidth && sidetime <= 0)
+        {
+            Debug.Log("right");
+            sequence.Join(human.DOMoveX(human.position.x + s_default.lanewidth, s_default.sidetime).SetEase(Ease.Linear));
+            sidetime = s_default.sidetime;
+        }
+    }
+
+    void Left()
+    {
+        if (human.position.x > s_default.leftside + s_default.lanewidth && sidetime <= 0)
+        {
+            Debug.Log("left");
+            sequence.Join(human.DOMoveX(human.position.x - s_default.lanewidth, s_default.sidetime).SetEase(Ease.Linear)); 
+            sidetime = s_default.sidetime;
+        }
+    }
+
+    void Action_Select(int n)
+    {
+        if (n == 0)
+        {
+            Jump();
+        }
+        else if (n == 1)
+        {
+            Dash();
+        }
+        else if (n == 2)
+        {
+            Right();
+        }
+        else if (n == 3)
+        {
+            Left();
+        }
     }
 
     void Action()
@@ -45,47 +144,29 @@ public class MGObjectManager : MonoBehaviour
         sequence = DOTween.Sequence();
         if (Input.GetKey(KeyCode.Space))
         {
-            time = 3f;
-            if (dashtime > 0)
-            {
-                if (time > dashtime)
-                {
-                    time = dashtime;
-                }
-                else if (time > dashtime - 2.5f)
-                {
-                    time = dashtime - 2.5f;
-                }
-            }
-            if (sidetime > 0 && time > sidetime)
-            {
-                time = sidetime;
-            }
-            Debug.Log("jump");
-            sequence.Join(human.DOMoveZ(-1f, time / 2).SetLoops(2,LoopType.Yoyo));
+            Action_Select(action[0]);
         }
-        if (Input.GetKey(KeyCode.UpArrow) && dashtime <= 0)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            Debug.Log("dash");
-            sequence.Join(human.DOMoveY(5f, 2.5f).SetLoops(2,LoopType.Yoyo));
-            dashtime = 5f;
+            Action_Select(action[1]);
         }
-        // else if (Input.GetKey(KeyCode.DownArrow))
-        // {
-        //     Debug.Log("dash");
-        // }
-        if (Input.GetKey(KeyCode.RightArrow) && human.position.x < rightside - lrinterval && sidetime <= 0)
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            Debug.Log("right");
-            sequence.Join(human.DOMoveX(human.position.x + lrinterval, lrmove).SetEase(Ease.Linear));
-            sidetime = lrmove;
+            Action_Select(action[2]);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow) && human.position.x > leftside + lrinterval && sidetime <= 0)
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Debug.Log("left");
-            sequence.Join(human.DOMoveX(human.position.x - lrinterval, lrmove).SetEase(Ease.Linear));
-            sidetime = lrmove;
+            Action_Select(action[3]);
         }
+        if (dashtime > 0)
+        {
+            dashtime -= Time.deltaTime;
+        }
+        if (sidetime > 0)
+        {
+            sidetime -= Time.deltaTime;
+        }
+
     }
 
     void Fix_position()
@@ -108,7 +189,7 @@ public class MGObjectManager : MonoBehaviour
         scale = Mathf.Abs(human.position.z - cam.position.z);
         if (scale != 0)
         {
-            scale = 1 / scale;
+            scale = 2 / scale;
         }
         size.x = human_size.x * scale;
         size.y = human_size.y * scale;
@@ -118,7 +199,7 @@ public class MGObjectManager : MonoBehaviour
         scale = Mathf.Abs(shadow.position.z - cam.position.z);
         if (scale != 0)
         {
-            scale = 1 / scale;
+            scale = 2 / scale;
         }
         size.x = shadow_size.x * scale;
         size.y = shadow_size.y * scale;
@@ -135,14 +216,6 @@ public class MGObjectManager : MonoBehaviour
         else
         {
             time -= Time.deltaTime;
-        }
-        if (dashtime > 0)
-        {
-            dashtime -= Time.deltaTime;
-        }
-        if (sidetime > 0)
-        {
-            sidetime -= Time.deltaTime;
         }
         Fix_position();
         Fix_size();
