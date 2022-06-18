@@ -11,9 +11,9 @@ using System;
 
 public class TextWriter : MonoBehaviour
 {
-
     public UIText uitext;
     public UIButton uibutton;
+    public string path;
     List<string> lines = new List<string>();
     int nowline = 1;
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class TextWriter : MonoBehaviour
 
     void LoadText() {
         enabled = false;
-        Addressables.LoadAssetAsync<TextAsset>( "Assets/Texts/text1.txt" ).Completed += novelData =>
+        Addressables.LoadAssetAsync<TextAsset>(path).Completed += novelData =>
         {
             StringReader reader = new StringReader( novelData.Result.text );
             //Debug.Log(reader.Peak());
@@ -53,29 +53,27 @@ public class TextWriter : MonoBehaviour
         if(Regex.IsMatch(line, "@c")) {
             nowline++;
         }
-        else if(Regex.IsMatch(line, "@b")) {
-            string[] words = line.Split(",");
+        else if(Regex.IsMatch(line, "@b"))// 選択肢
+        {
+            var words = new List<string>(line.Split(","));
+            int button_num = Int32.Parse(words[1]);
             int res = -1;
-            uibutton.DrawButton(words[1],words[2]);
+            uibutton.DrawButton(words.GetRange(2, button_num));
             while (true) {
                 res = uibutton.GetButton();
                 if(res == -1)yield return 0;
                 else break;
             }
-            switch (res) {
-                case 1:
-                    nowline = Int32.Parse(words[3]);
-                    break;
-                case 2:
-                    nowline = Int32.Parse(words[4]);
-                    break;
-                default:
-                    break;
-            }
+            nowline = Int32.Parse(words[button_num+res+1]);
         }
         else if(Regex.IsMatch(line, "@l")) {
             string x = line.Substring(3);
             nowline = Int32.Parse(x);
+        } 
+        else if(Regex.IsMatch(line, "@p"))
+        {
+            ScenarioCounter.Instance().incScenario();
+            nowline++;
         }
         else{
             int comma = line.IndexOf(",");

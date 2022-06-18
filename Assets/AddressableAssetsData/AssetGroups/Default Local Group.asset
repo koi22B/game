@@ -25,8 +25,16 @@ MonoBehaviour:
     m_Address: Assets/Texts/text1.txt
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: c84e0c7b5ed01d34a9518079d20e69fd
-    m_Address: Assets/Texts/text2.txt
+  - m_GUID: 2aeddfb03d02144408a4b2bb1b7f6338
+    m_Address: Assets/Texts/text_main.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b860c21b35c95e443988c0c3c31457ed
+    m_Address: Assets/Texts/text_pre_minigame.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 48a1d41fe49a22440af1c06d06b4d5c7
+    m_Address: Assets/Images/bguo.jpg
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
