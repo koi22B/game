@@ -38,8 +38,8 @@ public class MGObjectManager : MonoBehaviour
         human = GameObject.FindGameObjectWithTag("human").transform;
         shadow = GameObject.FindGameObjectWithTag("shadow").transform;
         cam = Camera.main.gameObject.transform;
-        human_size = human.localScale;
-        shadow_size = human.localScale;
+        human_size = GameObject.FindGameObjectWithTag("human").GetComponent<BoxCollider>().size;
+        shadow_size = GameObject.FindGameObjectWithTag("shadow").GetComponent<BoxCollider>().size;
         shadow_tan = 0.0f;
         time = 0f;
         dashtime = 0f;
@@ -94,7 +94,7 @@ public class MGObjectManager : MonoBehaviour
         if (dashtime <= 0)
         {
             Debug.Log("dash");
-            sequence.Join(human.DOMoveY(s_default.dashlen, s_default.dashtime).SetLoops(2,LoopType.Yoyo));
+            sequence.Join(human.DOMoveY(human.position.y + s_default.dashlen, s_default.dashtime).SetLoops(2,LoopType.Yoyo));
             dashtime = s_default.dashtime * 2;
         }
     }
