@@ -29,6 +29,14 @@ MonoBehaviour:
     m_Address: Assets/Texts/text_main.txt
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b860c21b35c95e443988c0c3c31457ed
+    m_Address: Assets/Texts/text_pre_minigame.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 48a1d41fe49a22440af1c06d06b4d5c7
+    m_Address: Assets/Images/bguo.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7e8363d281c0de445b35adb7fea0e052, type: 2}
   m_SchemaSet:
